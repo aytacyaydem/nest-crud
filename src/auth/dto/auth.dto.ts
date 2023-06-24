@@ -12,3 +12,7 @@ export class AuthDto {
 }
 
 export type CreatedUser = Pick<User, 'id' | 'email' | 'createdAt'>;
+
+export interface AuthorizedJwtPayload {
+  access_token: string;
+}

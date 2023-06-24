@@ -1,17 +1,18 @@
-import { Body, Controller, Post, Req } from '@nestjs/common';
+import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { AuthDto, CreatedUser } from './dto';
+import { AuthDto, AuthorizedJwtPayload } from './dto';
 
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Post('signup')
-  async signup(@Body() dto: AuthDto): Promise<CreatedUser> {
+  async signup(@Body() dto: AuthDto): Promise<AuthorizedJwtPayload> {
     return await this.authService.signup(dto);
   }
+  @HttpCode(HttpStatus.OK)
   @Post('signin')
-  signin(): string {
-    return 'I am signed in';
+  async signin(@Body() dto: AuthDto): Promise<AuthorizedJwtPayload> {
+    return await this.authService.signin(dto);
   }
 }
